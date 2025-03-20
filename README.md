@@ -1,40 +1,55 @@
-# Working with Terraform Modules
+# Terraform Module: Resource Group and Storage Account
 
-## Prerequisites
+This Terraform module creates an Azure Resource Group and an Azure Storage Account. It also outputs the resource group and storage account details.
 
-To complete this task, Terraform and Azure CLI must be installed and configured on your machine.
+## Usage
 
-## Steps to Complete the Task
+```hcl
+module "resource_group_storage" {
+  source  = "path_to_this_module"
+  prefix  = "example"  # Prefix for resource names
+  location = "East US"  # The Azure region where resources will be created
+}
+```
 
-**1. Fork this Repository**
+## Inputs
 
-**2. Create a Simple Terraform Module**
+| Name      | Description                                 | Type   | Default   |
+|-----------|---------------------------------------------|--------|-----------|
+| `prefix`  | Prefix for resource names.                  | `string` | `"example"` |
+| `location`| The Azure region for resource deployment.   | `string` | `"East US"` |
 
-- Create a directory named `modules/resource_group_storage` in the root of your repository.
-- Inside the `modules/resource_group_storage` directory, create the following files:
-    * `main.tf`: define the resources.
-    * `variables.tf`: define the variables.
-    * `outputs.tf`: define the outputs.
+## Outputs
 
-**3. Publish the Module on GitHub**
+| Name                                      | Description                                  |
+|-------------------------------------------|----------------------------------------------|
+| `resource_group_id`                       | The ID of the created Resource Group.        |
+| `resource_group_name`                     | The name of the created Resource Group.      |
+| `storage_account_id`                      | The ID of the created Storage Account.       |
+| `storage_account_primary_file_endpoint`   | The primary file endpoint for the Storage Account. |
 
-- Create a new repository on GitHub named according to Terraform's naming convention, e.g.`terraform-azurerm-resource_group_storage`.
-- Add the module files (`main.tf`, `variables.tf`, `outputs.tf`) to this repository.
-- Add an `INSTRUCTION.md` file with detailed usage instructions.
-- Add a `LICENSE` file to specify the usage rights.
-- Add a `.gitignore` file to ignore Terraform state files and other sensitive information.
-- Commit and push the files to GitHub.
+## Example
 
-**4. Publish the Module to Terraform Registry**
+Here is an example of how to use this module in a Terraform configuration:
 
-- Ensure your GitHub repository name follows the format `terraform-<PROVIDER>-<MODULE_NAME>`.
-- Sign in to the Terraform Registry with your GitHub account.
-- Publish the module by linking your GitHub repository to the Terraform Registry.
-- Tag the repository with a version (e.g., `v1.0.0`) following semantic versioning.
+```hcl
+module "resource_group_storage" {
+  source  = "./modules/resource_group_storage"
+  prefix  = "myapp"
+  location = "East US"
+}
+```
 
-**5. Use the Module from Terraform Registry**
+## Resources
 
-- In your main Terraform configuration (`main.tf`), use the module from the Terraform Registry.
-- Initialize and apply the configuration to verify that the module is used correctly.
+This module will create the following resources:
 
-**6. Pull request's description should also contain a reference to a successful workflow run**
+- Azure Resource Group
+- Azure Storage Account
+
+## Requirements
+
+- Terraform 0.12 or later
+- Azure Provider (`azurerm`)
+
+

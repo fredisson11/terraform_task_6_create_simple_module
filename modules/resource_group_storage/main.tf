@@ -5,12 +5,12 @@ resource "random_string" "suffix" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "${var.prefix}${random_string.suffix.result}"
+  name     = local.name
   location = var.location
 }
 
 resource "azurerm_storage_account" "example" {
-  name                     = "${var.prefix}${random_string.suffix.result}"
+  name                     = local.name
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
